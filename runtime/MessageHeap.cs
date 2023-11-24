@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace PublishSubscribeSystem
 {
-    internal class MessageHeap<T> where T : IMessage<T> // unmanaged, IEquatable<T>, IComparable<T>
+    internal class MessageHeap<T> where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
     {
         const int children = 4;
 
