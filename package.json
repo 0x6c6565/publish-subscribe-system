@@ -1,0 +1,18 @@
+{
+  "name": "com.publish-subscribe-system",
+  "version": "0.1.0",
+  "displayName": "Publish-Subscribe System",
+  "description": "A message pump",
+  "unity": "2021.1",
+  "keywords": [
+    "pubsub",
+    "pub-sub",
+    "command pattern",
+    ".NET5",
+    ".NET 5"
+  ],
+  "author": {
+    "name": "Lee Wood",
+    "email": "0x6c6565@gmail.com"
+  }
+}

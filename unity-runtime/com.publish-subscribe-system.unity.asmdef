@@ -1,0 +1,16 @@
+{
+    "name": "com.publish-subscribe-system.unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:451bea76823470e41abebe9321053109"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
