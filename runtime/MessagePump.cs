@@ -17,11 +17,11 @@ namespace PublishSubscribeSystem
             }
         }
 
-        public void Enqueue<T>(T item)
+        public void Enqueue<T>(T item) where T : unmanaged, IEquatable<T>, IComparable<T>
         {
-            if (subscriptions.ContainsKey(item))
+            if (subscriptions.ContainsKey(typeof(T)))
             {
-                subscriptions[typeof(T)].Enqueue(item);
+                (subscriptions[typeof(T)] as Subscription<T>).Enqueue(item);
             }
         }
 
