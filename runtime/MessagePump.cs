@@ -17,7 +17,7 @@ namespace PublishSubscribeSystem
             }
         }
 
-        public void Enqueue<T>(T item) where T : unmanaged, IEquatable<T>, IComparable<T>
+        public void Enqueue<T>(in T item) where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             if (subscriptions.ContainsKey(typeof(T)))
             {
