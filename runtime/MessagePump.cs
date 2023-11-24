@@ -17,7 +17,7 @@ namespace PublishSubscribeSystem
             }
         }
 
-        public void Enqueue<T>(in T item) where T : IMessage<T>// unmanaged, IEquatable<T>, IComparable<T>
+        public void Enqueue<T>(in T item) where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
             if (subscriptions.ContainsKey(typeof(T)))
             {
@@ -25,7 +25,7 @@ namespace PublishSubscribeSystem
             }
         }
 
-        public void Subscribe<T>(ISubscriber<T> subscriber) where T : IMessage<T>//unmanaged, IEquatable<T>, IComparable<T>
+        public void Subscribe<T>(ISubscriber<T> subscriber) where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
             if (!subscriptions.ContainsKey(typeof(T)))
             {
@@ -36,7 +36,7 @@ namespace PublishSubscribeSystem
             subscription.Subscribe(subscriber);
         }
 
-        public void Clear<T>() where T : IMessage<T>//unmanaged, IEquatable<T>, IComparable<T>
+        public void Clear<T>() where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
             if (subscriptions.ContainsKey(typeof(T)))
             {
@@ -44,7 +44,7 @@ namespace PublishSubscribeSystem
             }
         }
 
-        public void UnsubscribeAll<T>() where T : IMessage<T>//unmanaged, IEquatable<T>, IComparable<T>
+        public void UnsubscribeAll<T>() where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
             if (subscriptions.ContainsKey(typeof(T)))
             {
@@ -52,7 +52,7 @@ namespace PublishSubscribeSystem
             }
         }
 
-        public void Unsubscribe<T>(ISubscriber<T> subscriber) where T : IMessage<T>//unmanaged, IEquatable<T>, IComparable<T>
+        public void Unsubscribe<T>(ISubscriber<T> subscriber) where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
             if (subscriptions.ContainsKey(typeof(T)))
             {

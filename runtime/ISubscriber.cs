@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace PublishSubscribeSystem
 {
-    public interface ISubscriber<T> : ISubscriber where T : IMessage<T>// unmanaged, IEquatable<T>, IComparable<T>
+    public interface ISubscriber<T> : ISubscriber where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
     {
         void OnNotify(in T message);
     }

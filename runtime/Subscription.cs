@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace PublishSubscribeSystem
 {
-    internal class Subscription<T> : Subscription where T : IMessage<T>// unmanaged, IEquatable<T>, IComparable<T>
+    internal class Subscription<T> : Subscription where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
     {
         MessageHeap<T> messages = new MessageHeap<T>();
         List<ISubscriber<T>> subscribers = new List<ISubscriber<T>>();
