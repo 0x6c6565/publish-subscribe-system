@@ -5,76 +5,60 @@ namespace PublishSubscribeSystem
 {
     public class MessagePump
     {
-        Dictionary<Type, Subscription> subscriptions = new Dictionary<Type, Subscription>();
+        SortedList<int, Subscription> subscriptions = new SortedList<int, Subscription>();
 
-        object publishLock { get; set; } = new object();
-
-        public void Publish()
+        public bool Publish()
         {
-            lock (publishLock)
+            bool hasMessages = false;
+            for (int n = 0; n < subscriptions.Values.Count; ++n)
             {
-                foreach (KeyValuePair<Type, Subscription> subscription in subscriptions)
-                {
-                    subscription.Value.Publish();
-                }
+                subscriptions.Values[n].Publish();
+                hasMessages |= 0 < subscriptions.Values[n].Count;
             }
+
+            return hasMessages;
         }
 
         public void Enqueue<T>(in T item) where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
-            lock (publishLock)
+            if (subscriptions.ContainsKey(typeof(T).GetHashCode()))
             {
-                if (subscriptions.ContainsKey(typeof(T)))
-                {
-                    (subscriptions[typeof(T)] as Subscription<T>).Enqueue(item);
-                }
+                (subscriptions[typeof(T).GetHashCode()] as Subscription<T>).Enqueue(item);
             }
         }
 
         public void Subscribe<T>(ISubscriber<T> subscriber) where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
-            lock (publishLock)
+            if (!subscriptions.ContainsKey(typeof(T).GetHashCode()))
             {
-                if (!subscriptions.ContainsKey(typeof(T)))
-                {
-                    subscriptions.Add(typeof(T), new Subscription<T>());
-                }
-
-                Subscription<T> subscription = subscriptions[typeof(T)] as Subscription<T>;
-                subscription.Subscribe(subscriber);
+                subscriptions.Add(typeof(T).GetHashCode(), new Subscription<T>());
             }
+
+            Subscription<T> subscription = subscriptions[typeof(T).GetHashCode()] as Subscription<T>;
+            subscription.Subscribe(subscriber);
         }
 
         public void Clear<T>() where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
-            lock (publishLock)
+            if (subscriptions.ContainsKey(typeof(T).GetHashCode()))
             {
-                if (subscriptions.ContainsKey(typeof(T)))
-                {
-                    subscriptions[typeof(T)].Clear();
-                }
+                subscriptions[typeof(T).GetHashCode()].Clear();
             }
         }
 
         public void UnsubscribeAll<T>() where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
-            lock (publishLock)
+            if (subscriptions.ContainsKey(typeof(T).GetHashCode()))
             {
-                if (subscriptions.ContainsKey(typeof(T)))
-                {
-                    subscriptions[typeof(T)].UnsubscribeAll();
-                }
+                subscriptions[typeof(T).GetHashCode()].UnsubscribeAll();
             }
         }
 
         public void Unsubscribe<T>(ISubscriber<T> subscriber) where T : unmanaged, IMessage<T>, IEquatable<T>, IComparable<T>
         {
-            lock (publishLock)
+            if (subscriptions.ContainsKey(typeof(T).GetHashCode()))
             {
-                if (subscriptions.ContainsKey(typeof(T)))
-                {
-                    subscriptions[typeof(T)].Unsubscribe(subscriber);
-                }
+                subscriptions[typeof(T).GetHashCode()].Unsubscribe(subscriber);
             }
         }
     }

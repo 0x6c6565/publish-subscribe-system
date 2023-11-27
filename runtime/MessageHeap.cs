@@ -65,6 +65,11 @@ namespace PublishSubscribeSystem
             return item;
         }
 
+        internal T Peek()
+        {
+            return messages[0];
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] int Parent(int index) => (index - 1) / children;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] int Child(int index, int child) => (index * children) + child;
